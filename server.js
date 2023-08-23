@@ -5,13 +5,10 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const OpenAI = require("openai");
 const { handleDoc } = require("./helper/handleDoc");
+const { demo } = require("./helper/openAi");
 
 // Replace 'YOUR_TOKEN' with your bot's API token
 const TOKEN = process.env.BOT_TOKEN;
-
-const openai = new OpenAI({
-	apiKey: process.env.OPENAI_TOKEN, // defaults to process.env["OPENAI_API_KEY"]
-});
 
 const bot = new TelegramBot(TOKEN, {
 	polling: true,
