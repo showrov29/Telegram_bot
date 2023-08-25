@@ -2,9 +2,11 @@ const pdf = require("pdf-parse");
 const mammoth = require("mammoth");
 const fs = require("fs");
 const request = require("request");
+const FileHistory = require("../model/documentTrack");
 const handleDoc = async (msg, bot) => {
-	const fileId = msg.document.file_id;
-	const fileName = msg.document.file_name;
+	const fileExist = await FileHistory.findOne({ userId: msg.from.id });
+	const fileId = fileExist.fileId;
+	const fileName = fileExist.fileName;
 	const chatId = msg.from.id;
 
 	bot.getFileLink(fileId).then((fileLink) => {
@@ -52,9 +54,9 @@ const handleDoc = async (msg, bot) => {
 	});
 };
 
-function sendLargeMessage(chatId, message, bot) {
+const sendLargeMessage = async (chatId, message, bot) => {
 	const chunkSize = 20000; // Set the desired chunk size
-	const chunks = message.match(new RegExp(`.{1,${chunkSize}}`, "g"));
+	const chunks = message?.match(new RegExp(`.{1,${chunkSize}}`, "g"));
 
 	if (chunks) {
 		chunks.forEach((chunk, index) => {
@@ -63,6 +65,6 @@ function sendLargeMessage(chatId, message, bot) {
 			}, index * 1000); // Delay each chunk by 1 second
 		});
 	}
-}
+};
 
 module.exports = { handleDoc };

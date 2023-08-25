@@ -8,7 +8,6 @@ const downloadAudio = async (bot, msg) => {
 	const text = msg.text;
 	const tempDir = path.join(__dirname, "temp");
 	if (text.startsWith("/download")) {
-		const videoUrl = text.split(" ")[1];
 		if (text.startsWith("/download")) {
 			const videoUrl = text.split(" ")[1];
 
