@@ -8,6 +8,7 @@ const { downloadAudio } = require("./helper/youtubeDownload");
 const mongoose = require("mongoose");
 const { saveFile } = require("./services/files");
 const { generateOpenAiResponse, generateImage } = require("./helper/openAi");
+const { doOperationWithAI } = require("./helper/fileReadOpenAi");
 
 // Replace 'YOUR_TOKEN' with your bot's API token
 const TOKEN = process.env.BOT_TOKEN;
@@ -50,15 +51,19 @@ bot.on("message", async (msg) => {
 		if (msg.text.startsWith("/read")) {
 			await handleDoc(msg, bot);
 		}
-		if (msg.text.startsWith("generate")) {
+		if (msg.text.startsWith("generate/")) {
 			const message = msg.text.split("/")[1];
 			const response = await generateOpenAiResponse(message);
 			bot.sendMessage(chatId, response);
 		}
-		if (msg.text.startsWith("image")) {
+		if (msg.text.startsWith("image/")) {
 			const message = msg.text.split("/")[1];
 			const response = await generateImage(message);
 			bot.sendMessage(chatId, response);
+		}
+		if (msg.text.startsWith("do/")) {
+			const message = msg.text.split("/")[1];
+			await doOperationWithAI(msg, bot, message);
 		}
 		downloadAudio(bot, msg);
 	}
