@@ -3,8 +3,13 @@ const mammoth = require("mammoth");
 const fs = require("fs");
 const request = require("request");
 const FileHistory = require("../model/documentTrack");
-const handleDoc = async (msg, bot) => {
+const { generateOpenAiResponse } = require("./openAi");
+const doOperationWithAI = async (msg, bot, message) => {
 	const fileExist = await FileHistory.findOne({ userId: msg.from.id });
+	console.log(
+		"🚀 ~ file: fileReadOpenAi.js:8 ~ doOperationWithAI ~ fileExist:",
+		fileExist
+	);
 	const fileId = fileExist.fileId;
 	const fileName = fileExist.fileName;
 	const chatId = msg.from.id;
@@ -33,12 +38,16 @@ const handleDoc = async (msg, bot) => {
 					mammoth
 						.extractRawText({ path: fileName })
 						.then((result) => {
-							sendLargeMessage(
-								chatId,
-								`You sent a DOCX document:\n${result.value}`,
-								bot
-							);
-							fs.unlinkSync(fileName);
+							let aiResponse = generateOpenAiResponse(
+								message + result.value
+							).then((response) => {
+								sendLargeMessage(
+									chatId,
+									`*Your Anticipated Response*:\n${response}`,
+									bot
+								);
+								fs.unlinkSync(fileName);
+							});
 						})
 						.catch((err) => {
 							console.error(err);
@@ -67,4 +76,4 @@ const sendLargeMessage = async (chatId, message, bot) => {
 	}
 };
 
-module.exports = { handleDoc };
+module.exports = { doOperationWithAI };
