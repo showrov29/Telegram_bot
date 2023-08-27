@@ -10,9 +10,9 @@ const saveFile = async (msg) => {
 	const fileExist = await FileHistory.find({ userId: msg.from.id });
 
 	if (fileExist.length > 0) {
-		FileHistory.findOneAndUpdate(
+		await FileHistory.findOneAndUpdate(
 			{ userId: msg.from.id },
-			{ fileId: msg.document.file_id }
+			{ fileId: msg.document.file_id, fileName: msg.document.file_name }
 		);
 	} else {
 		const newRecord = new FileHistory(file);

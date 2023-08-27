@@ -59,7 +59,7 @@ bot.on("message", async (msg) => {
 		if (msg.text.startsWith("image/")) {
 			const message = msg.text.split("/")[1];
 			const response = await generateImage(message);
-			bot.sendMessage(chatId, response);
+			bot.sendPhoto(chatId, response);
 		}
 		if (msg.text.startsWith("do/")) {
 			const message = msg.text.split("/")[1];
