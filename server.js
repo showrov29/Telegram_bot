@@ -35,13 +35,13 @@ bot.onText(/\/start/, (msg) => {
 	const chatId = msg.chat.id;
 	bot.sendMessage(
 		chatId,
-		"Hello! I'm your bot. Send me a message or a document."
+		"Hello! I'm your bot. Send me a message or a document.\n - generate/ type anything to like chatGPT"
 	);
 });
 // Message handler
 bot.on("message", async (msg) => {
 	const chatId = msg.from.id;
-
+	console.log("Message received from " + msg.from.first_name);
 	if (msg.document) {
 		saveFile(msg);
 	}
