@@ -48,20 +48,20 @@ bot.on("message", async (msg) => {
 
 	// Check if the received message is a text message
 	if (msg.text) {
-		if (msg.text.startsWith("/read")) {
+		if (msg.text.toLocaleLowerCase().startsWith("/read")) {
 			await handleDoc(msg, bot);
 		}
-		if (msg.text.startsWith("generate/")) {
+		if (msg.text.toLocaleLowerCase().startsWith("generate/")) {
 			const message = msg.text.split("/")[1];
 			const response = await generateOpenAiResponse(message);
 			bot.sendMessage(chatId, response);
 		}
-		if (msg.text.startsWith("image/")) {
+		if (msg.text.toLocaleLowerCase().startsWith("image/")) {
 			const message = msg.text.split("/")[1];
 			const response = await generateImage(message);
 			bot.sendPhoto(chatId, response);
 		}
-		if (msg.text.startsWith("do/")) {
+		if (msg.text.toLocaleLowerCase().startsWith("do/")) {
 			const message = msg.text.split("/")[1];
 			await doOperationWithAI(msg, bot, message);
 		}
