@@ -35,7 +35,7 @@ bot.onText(/\/start/, (msg) => {
 	const chatId = msg.chat.id;
 	bot.sendMessage(
 		chatId,
-		"Hello! I'm your bot. Send me a message or a document.\n - generate/ type anything to like chatGPT"
+		"Hello! I'm your bot. Send me a message or a document. Here are the list of commands you can send\n - generate/ [type anything  like chatGPT to get response]"
 	);
 });
 // Message handler
